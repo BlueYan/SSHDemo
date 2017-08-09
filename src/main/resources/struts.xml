@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+    <!--
+        配置相关的Action
+    -->
+    <package name="testPkg" extends="struts-default" namespace="/">
+        <!--
+            之前struts2没有与Spring整合之前 class是填写对应的Action的全限定名
+            现在与spring整合后我们class的值填写在spring中配置的别名就可以
+        -->
+        <action name="user_*" class="userAction" method="{1}">
+            <result>/index.jsp</result>
+        </action>
+    </package>
+</struts>

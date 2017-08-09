@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!--
+        配置扫描
+        作用
+        1: 扫描使用注解进行配置的一些组件 DAO Service等
+        2: 与strut2整合在Action中对service对象使用Autowired注解.不加扫描会报空指针,当然要记得导入struts-spring-plugin.jar包
+    -->
+    <context:component-scan base-package="com.mark" />
+
+    <!--
+        DB相关的配置文件
+    -->
+    <context:property-placeholder location="classpath:db/db.properties"/>
+    <!--
+        数据库连接池
+    -->
+    <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+
+    <!--
+        配置hibernate
+        Hibernate我们需要用到SessionFactory对象 交给Spring进行管理
+    -->
+    <bean class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" id="sessionFactory">
+        <!-- 配置Datasource -->
+        <property name="dataSource" ref="dataSource"/>
+        <!--
+            配置Hibernate相关的方言以及一些常用的属性
+            由于HibernateProperties的set方法是需要一个Properties类型的
+            所以我们采用value方式配置
+            如果我们使用sessionFactory.getCurrentSession的话需要配置hibernate.current_session_context_class=org.springframework.orm.hibernate4.SpringSessionContext
+        -->
+        <property name="hibernateProperties">
+            <value>
+                hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+                hibernate.show_sql=true
+                hibernate.hbm2ddl.auto=update
+                hibernate.current_session_context_class=org.springframework.orm.hibernate4.SpringSessionContext
+            </value>
+        </property>
+        <!--
+            配置domain相关的hbm文件
+            使用通配符加载所有的hbm文件
+        -->
+        <property name="mappingLocations" value="classpath:hbm/*.hbm.xml"/>
+    </bean>
+
+    <!--
+        配置DAO层的实现类
+        属性SessionFactory采用自动装配
+    -->
+    <bean class="com.mark.dao.impl.UserDAOImpl" id="userDAO"/>
+
+    <!--
+        配置Service层
+    -->
+    <bean class="com.mark.service.impl.UserServiceImpl" id="userService"/>
+
+    <!--
+        由于要使用到事务操作,在service层.所以我们需要用到aop技术将事务操作切入到service层中
+    -->
+    <!-- 配置事务管理器 -->
+    <bean class="org.springframework.orm.hibernate4.HibernateTransactionManager" id="transactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!-- 关联事务管理器 配置要在什么方法上进行事务操作-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="list*" read-only="true"/>
+            <tx:method name="query*" read-only="true"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+
+    </tx:advice>
+
+    <aop:config>
+        <!-- 配置切入点 service层-->
+        <aop:pointcut id="servicePointcut" expression="execution(* com.mark.service.*Service.*(..))"/>
+        <!--  -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="servicePointcut"/>
+    </aop:config>
+
+
+    <!--
+        配置Struts2中的Action
+        注意: 一定要设置scope作用域为prototype
+    -->
+    <bean class="com.mark.web.action.UserAction" id="userAction" scope="prototype"/>
+
+</beans>
