@@ -14,11 +14,23 @@
         <param-value>classpath:applicationContext.xml</param-value>
     </context-param>
 
+
     <!-- 配置strut2 -->
     <filter>
         <filter-name>strut2</filter-name>
         <filter-class>org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter</filter-class>
     </filter>
+    <!-- 配置OpenSessionInView
+        作用: 为了延长session开启和关闭的时间.将原来session在service开启和关闭的操作放到view表现层中
+    -->
+    <filter>
+        <filter-name>OSIV</filter-name>
+        <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>OSIV</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>strut2</filter-name>
         <url-pattern>/*</url-pattern>
@@ -31,5 +43,7 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+
+
 
 </web-app>
