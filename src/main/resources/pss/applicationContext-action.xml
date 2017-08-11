@@ -8,4 +8,9 @@
         <property name="departmentService" ref="departmentService"/>
     </bean>
 
+    <bean class="com.mark.project.pss.web.action.EmployeeAction" id="employeeAction" scope="prototype">
+        <property name="departmentService" ref="departmentService"/>
+        <property name="employeeService" ref="employeeService"/>
+    </bean>
+
 </beans>

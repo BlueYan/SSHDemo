@@ -1,11 +1,13 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="/struts-tags" prefix="s" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="/pss/static/style/basic_layout.css" rel="stylesheet" type="text/css">
-<link href="/pss/static/style/common_style.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="/pss/static/js/jquery/jquery.js"></script>
-<script type="text/javascript" src="/pss/static/js/commonAll.js"></script>
+<link href="/style/basic_layout.css" rel="stylesheet" type="text/css">
+<link href="/style/common_style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/js/jquery/jquery.js"></script>
+<script type="text/javascript" src="/js/commonAll.js"></script>
 <title>PSS-账户管理</title>
 <style>
 	.alt td{ background:black !important;}
@@ -38,13 +40,13 @@
 							姓名/邮箱
 							<input name="qo.keyword" class="ui_input_txt02"/>
 							所属部门
-							<s:select list="#depts" name="qo.deptId" 
-								headerKey="-1" headerValue="全部部门"
-								listKey="id" listValue="name" cssClass="ui_select01"/>
+							<%--<s:select list="#depts" name="qo.deptId" --%>
+								<%--headerKey="-1" headerValue="全部部门"--%>
+								<%--listKey="id" listValue="name" cssClass="ui_select01"/>--%>
 						</div>
 						<div id="box_bottom">
 							<input type="button" value="查询" class="ui_input_btn01 btn_page" />
-							<input type="button" value="新增" class="ui_input_btn01 btn_input" data-url='<s:url namespace="/" action="employee_input"/>'/> 
+							<input type="button" value="新增" class="ui_input_btn01 btn_input" data-url='<s:url namespace="/pss" action="employee_input"/>'/>
 						</div>
 					</div>
 				</div>
@@ -63,18 +65,22 @@
 							<th></th>
 						</tr>
 						<tbody>
+						<s:iterator value="#employees">
 							<tr>
 								<td><input type="checkbox" name="IDCheck" class="acb" /></td>
-								<td>1</td>
-								<td>Will</td>
-								<td>will@</td>
-								<td>17</td>
-								<td>开发部</td>
+								<td><s:property value="id"/></td>
+								<td><s:property value="name"/></td>
+								<td><s:property value="email"/></td>
+								<td><s:property value="age"/></td>
+								<td><s:property value="dept.name"/></td>
 								<td>
-									<s:a namespace="/" action="employee_input"><s:param name="employee.id" value="id"/>编辑</s:a>
-									<s:a namespace="/" action="employee_delete"><s:param name="employee.id" value="id"/>删除</s:a>
+									<s:a namespace="/pss" action="employee_input">
+										<s:param name="employee.id" value="id"/>编辑</s:a>
+									<s:a namespace="/pss" action="employee_delete">
+										<s:param name="employee.id" value="id"/>删除</s:a>
 								</td>
 							</tr>
+						</s:iterator>
 						</tbody>
 					</table>
 				</div>

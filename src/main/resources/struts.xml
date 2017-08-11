@@ -8,6 +8,7 @@
 
     <constant name="struts.devMode" value="true"/>
     <constant name="struts.ui.theme" value="simple"/>
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
 
     <!--
         配置相关的Action
@@ -15,17 +16,51 @@
     -->
     <package name="pssPkg" extends="struts-default" namespace="/pss">
         <!--
+            定义一个默认的拦截器栈主要是为了解决传递参数丢失问题
+            传递过程:
+            ParamInterceptor->PrepareInterceptor->ParamInterceptor->Service->DAO
+        -->
+        <default-interceptor-ref name="paramsPrepareParamsStack"/>
+        <!--
+            TODO: 设置全局的allowed-method通配符无效？只能单独给每个Action设置？
+        -->
+        <global-allowed-methods>regex:.*</global-allowed-methods>
+
+        <!--
             之前struts2没有与Spring整合之前 class是填写对应的Action的全限定名
             现在与spring整合后我们class的值填写在spring中配置的别名就可以
         -->
-        <action name="department_*" class="departmentAction" method="{1}">
-            <result name="LIST">/WEB-INF/pss/views/department/list.jsp</result>
-            <result name="input">/WEB-INF/pss/views/department/input.jsp</result>
+        <action name="*_*" class="{1}Action" method="{2}">
+            <result name="list">/WEB-INF/pss/views/{1}/list.jsp</result>
+            <result name="input">/WEB-INF/pss/views/{1}/input.jsp</result>
             <!--
                 从编辑页面调到回列表页面 要用action作为媒介跳转
+                点击删除也是经过这里跳转
             -->
-            <result type="redirectAction">department_list</result>
+            <result name="success" type="redirectAction">{1}_list</result>
+            <!--
+                2.5版本开始需要设置allowed-menthod标签解决通配符无效的问题
+            -->
+            <!--<allowed-methods>-->
+                <!--saveOrUpdate,delete-->
+            <!--</allowed-methods>-->
         </action>
+
+        <!--<action name="employee_*" class="employeeAction" method="{1}">-->
+            <!--<result name="list">/WEB-INF/pss/views/employee/list.jsp</result>-->
+            <!--<result name="input">/WEB-INF/pss/views/employee/input.jsp</result>-->
+            <!--&lt;!&ndash;-->
+                <!--从编辑页面调到回列表页面 要用action作为媒介跳转-->
+                <!--点击删除也是经过这里跳转-->
+            <!--&ndash;&gt;-->
+            <!--<result name="success" type="redirectAction">employee_list</result>-->
+            <!--&lt;!&ndash;-->
+                <!--2.5版本开始需要设置allowed-menthod标签解决通配符无效的问题-->
+            <!--&ndash;&gt;-->
+            <!--<allowed-methods>-->
+                <!--saveOrUpdate,delete-->
+            <!--</allowed-methods>-->
+        <!--</action>-->
 
     </package>
 </struts>

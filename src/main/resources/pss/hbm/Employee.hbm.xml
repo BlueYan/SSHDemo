@@ -11,7 +11,9 @@
         </id>
         <property name="name" column="name"/>
         <property name="age" column="age"/>
-        <property name="hireDate" column="hireDate"/>
+        <property name="email" column="email"/>
+        <property name="admin" column="admin" type="java.lang.Boolean"/>
+        <property name="password" column="password"/>
         <many-to-one name="dept" column="dept_id"/>
     </class>
     

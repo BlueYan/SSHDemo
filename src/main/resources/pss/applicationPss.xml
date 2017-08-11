@@ -7,15 +7,6 @@
 
 
     <!--
-        关联项目中其他的配置文件
-        dao service action
-    -->
-    <import resource="classpath:pss/applicationContext-dao.xml"/>
-    <import resource="classpath:pss/applicationContext-service.xml"/>
-    <import resource="classpath:pss/applicationContext-action.xml"/>
-
-
-    <!--
         配置扫描
         作用
         1: 扫描使用注解进行配置的一些组件 DAO Service等
@@ -90,5 +81,14 @@
         <!--  -->
         <aop:advisor advice-ref="txAdvice" pointcut-ref="servicePointcut"/>
     </aop:config>
+
+    <!--
+        关联项目中其他的配置文件
+        dao service action
+    -->
+    <import resource="classpath:pss/applicationContext-dao.xml"/>
+    <import resource="classpath:pss/applicationContext-service.xml"/>
+    <import resource="classpath:pss/applicationContext-action.xml"/>
+
 
 </beans>

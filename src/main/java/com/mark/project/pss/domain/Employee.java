@@ -16,9 +16,13 @@ public class Employee {
 
 	private String name;
 
+	private String password;
+
+	private String email;
+
 	private Integer age;
 
-	private Date hireDate;
+	private Boolean admin;
 
 	private Department dept;
 
@@ -27,8 +31,10 @@ public class Employee {
 		return "Employee{" +
 				"id=" + id +
 				", name='" + name + '\'' +
+				", password='" + password + '\'' +
+				", email='" + email + '\'' +
 				", age=" + age +
-				", hireDate=" + hireDate +
+				", admin=" + admin +
 				'}';
 	}
 }

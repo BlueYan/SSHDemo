@@ -20,7 +20,8 @@ To change this template use File | Settings | File Templates.
 <body>
 <s:debug/>
 <s:form name="editForm" namespace="/pss" action="department_saveOrUpdate" method="post" id="editForm">
-	<input type="hidden" name="department.id" value=""/>
+    <!-- 隐藏id -->
+	<s:hidden name="department.id"/>
 	<div id="container">
 		<div id="nav_links">
 			<span style="color: #1A5CC6;" >部门编辑</span>
@@ -35,13 +36,13 @@ To change this template use File | Settings | File Templates.
 				<tr>
 					<td class="ui_text_rt" width="140">部门名称</td>
 					<td class="ui_text_lt">
-						<s:textfield cssClass="ui_input_txt02" name="department.name" value="<s:property value='#'/>"/>
+						<s:textfield cssClass="ui_input_txt02" name="department.name"/>
 					</td>
 				</tr>
 				<tr>
 					<td class="ui_text_rt" width="140">部门代码</td>
 					<td class="ui_text_lt">
-						<s:textfield cssClass="ui_input_txt02" name="department.sn" value="<s:property value='#'/>"/>
+						<s:textfield cssClass="ui_input_txt02" name="department.sn"/>
 					</td>
 				</tr>
 				<tr>

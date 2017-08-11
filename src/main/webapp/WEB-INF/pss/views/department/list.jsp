@@ -64,8 +64,14 @@ To change this template use File | Settings | File Templates.
                             <td><s:property value="#vs.name"/></td>
                             <td><s:property value="#vs.sn"/></td>
                             <td>
-                                <a href="#">编辑</a>
-                                <a href="#">删除</a>
+                                <s:a namespace="/pss" action="department_input">
+                                    <s:param name="department.id" value="#vs.id"/>
+                                    编辑
+                                </s:a>
+                                <s:a namespace="/pss" action="department_delete">
+                                    <s:param name="department.id" value="#vs.id"/>
+                                    删除
+                                </s:a>
                             </td>
                         </tr>
                     </s:iterator>

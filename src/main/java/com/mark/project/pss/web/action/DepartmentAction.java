@@ -24,12 +24,12 @@ public class DepartmentAction extends ActionSupport {
 	 */
 	@Setter
 	@Getter
-	private Department department;
+	private Department department = new Department();
 
 	public String list() throws Exception {
 		List<Department> departments = departmentService.list();
 		ActionContext.getContext().put("dept", departments); //将数据放到valueStack
-		return "LIST";
+		return "list";
 	}
 
 	/**
@@ -38,12 +38,17 @@ public class DepartmentAction extends ActionSupport {
 	 * @throws Exception
 	 */
 	public String input() throws Exception {
+		//查询当前的department对象
+		if ( department.getId() != null ) {
+			department = departmentService.get(department.getId());
+		}
 		return INPUT;
 	}
 
 	/**
 	 * 保存或者更新页面
-	 * TODO: 从编辑页面保存编辑无法提示无法找到/pss/department_saveOrUpdate.action
+	 * 问题: 从编辑页面保存编辑无法提示无法找到/pss/department_saveOrUpdate.action
+	 * 已解决：struts2.5版本与2.3版本的问题 通配符
 	 * @return
 	 * @throws Exception
 	 */
@@ -56,6 +61,16 @@ public class DepartmentAction extends ActionSupport {
 			//表示进行更新
 			departmentService.update(department);
 		}
+		return SUCCESS;
+	}
+
+	/**
+	 * 删除操作
+	 * @return
+	 * @throws Exception
+	 */
+	public String delete()throws Exception {
+		departmentService.delete(department);
 		return SUCCESS;
 	}
 

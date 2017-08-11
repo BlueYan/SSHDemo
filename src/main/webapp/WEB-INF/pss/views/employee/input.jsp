@@ -1,17 +1,19 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="/struts-tags" prefix="s" %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>信息管理系统</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="/pss/static/style/basic_layout.css" rel="stylesheet" type="text/css">
-<link href="/pss/static/style/common_style.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="/pss/static/js/jquery/jquery.js"></script>
-<script type="text/javascript" src="/pss/static/js/jquery/jquery.validate.min.js"></script>
-<script type="text/javascript" src="/pss/static/js/commonAll.js"></script>
-<script type="text/javascript" src="/pss/static/js/system/employee.js"></script>
+<link href="/style/basic_layout.css" rel="stylesheet" type="text/css">
+<link href="/style/common_style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/js/jquery/jquery.js"></script>
+<script type="text/javascript" src="/js/jquery/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/js/commonAll.js"></script>
+<script type="text/javascript" src="/js/system/employee.js"></script>
 </head>
 <body>
-<s:form name="editForm" action="/employee_saveOrUpdate" method="post" id="editForm">
+<s:form name="editForm" namespace="/pss" action="/employee_saveOrUpdate" method="post" id="editForm">
 	<input type="hidden" name="employee.id" value="<s:property value="employee.id"/>">
 	<div id="container">
 		<div id="nav_links">
