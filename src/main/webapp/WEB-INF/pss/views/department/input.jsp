@@ -18,7 +18,6 @@ To change this template use File | Settings | File Templates.
 <script type="text/javascript" src="/js/commonAll.js"></script>
 </head>
 <body>
-<s:debug/>
 <s:form name="editForm" namespace="/pss" action="department_saveOrUpdate" method="post" id="editForm">
     <!-- 隐藏id -->
 	<s:hidden name="department.id"/>

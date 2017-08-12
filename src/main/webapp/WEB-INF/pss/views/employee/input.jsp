@@ -13,7 +13,7 @@
 <script type="text/javascript" src="/js/system/employee.js"></script>
 </head>
 <body>
-<s:form name="editForm" namespace="/pss" action="/employee_saveOrUpdate" method="post" id="editForm">
+<s:form name="editForm" namespace="/pss" action="employee_saveOrUpdate" method="post" id="editForm">
 	<input type="hidden" name="employee.id" value="<s:property value="employee.id"/>">
 	<div id="container">
 		<div id="nav_links">

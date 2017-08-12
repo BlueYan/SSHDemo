@@ -22,15 +22,18 @@
         -->
         <default-interceptor-ref name="paramsPrepareParamsStack"/>
         <!--
-            TODO: 设置全局的allowed-method通配符无效？只能单独给每个Action设置？
-        -->
+            如果action中使用了*_*来统配的话，<allowed-methods></allowed-methods>是无法设置的.
+            因为在class的配置是{1}Action找不到对应的类，自然allowed-methods无法读取到类的方法。
+            配置全局的allowed-methods
+         -->
         <global-allowed-methods>regex:.*</global-allowed-methods>
+
 
         <!--
             之前struts2没有与Spring整合之前 class是填写对应的Action的全限定名
             现在与spring整合后我们class的值填写在spring中配置的别名就可以
         -->
-        <action name="*_*" class="{1}Action" method="{2}">
+        <action name="*_*" class="{1}Action" method="{2}" >
             <result name="list">/WEB-INF/pss/views/{1}/list.jsp</result>
             <result name="input">/WEB-INF/pss/views/{1}/input.jsp</result>
             <!--
@@ -41,26 +44,8 @@
             <!--
                 2.5版本开始需要设置allowed-menthod标签解决通配符无效的问题
             -->
-            <!--<allowed-methods>-->
-                <!--saveOrUpdate,delete-->
-            <!--</allowed-methods>-->
+            <!--<allowed-methods>saveOrUpdate,delete</allowed-methods>-->
         </action>
-
-        <!--<action name="employee_*" class="employeeAction" method="{1}">-->
-            <!--<result name="list">/WEB-INF/pss/views/employee/list.jsp</result>-->
-            <!--<result name="input">/WEB-INF/pss/views/employee/input.jsp</result>-->
-            <!--&lt;!&ndash;-->
-                <!--从编辑页面调到回列表页面 要用action作为媒介跳转-->
-                <!--点击删除也是经过这里跳转-->
-            <!--&ndash;&gt;-->
-            <!--<result name="success" type="redirectAction">employee_list</result>-->
-            <!--&lt;!&ndash;-->
-                <!--2.5版本开始需要设置allowed-menthod标签解决通配符无效的问题-->
-            <!--&ndash;&gt;-->
-            <!--<allowed-methods>-->
-                <!--saveOrUpdate,delete-->
-            <!--</allowed-methods>-->
-        <!--</action>-->
 
     </package>
 </struts>
