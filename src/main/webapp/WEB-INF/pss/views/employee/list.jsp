@@ -19,6 +19,7 @@
 		});
 		//翻页
 		$(".btn_page").click(function(){
+		    console.info("翻页");
 			$(":input[name='qo.currentPage']").val($(this).data("page") || $(":input[name='qo.currentPage']").val());		
 			$("#searchForm").submit();
 		});
@@ -30,7 +31,7 @@
 </script>
 </head>
 <body>
-	<form id="searchForm" action="/employee" method="post">
+	<s:form id="searchForm" action="employee_list" method="post" namespace="/pss">
 		<div id="container">
 			<div class="ui_content">
 				<div class="ui_text_indent">
@@ -38,11 +39,11 @@
 						<div id="box_top">搜索</div>
 						<div id="box_center">
 							姓名/邮箱
-							<input name="qo.keyword" class="ui_input_txt02"/>
+							<s:textfield name="qo.keyword" cssClass="ui_input_txt02"/>
 							所属部门
-							<%--<s:select list="#depts" name="qo.deptId" --%>
-								<%--headerKey="-1" headerValue="全部部门"--%>
-								<%--listKey="id" listValue="name" cssClass="ui_select01"/>--%>
+							<s:select list="#depts" name="qo.deptId"
+								headerKey="-1" headerValue="全部部门"
+								listKey="id" listValue="name" cssClass="ui_select01"/>
 						</div>
 						<div id="box_bottom">
 							<input type="button" value="查询" class="ui_input_btn01 btn_page" />
@@ -65,7 +66,7 @@
 							<th></th>
 						</tr>
 						<tbody>
-						<s:iterator value="#employees">
+						<s:iterator value="#pageResult.listData">
 							<tr>
 								<td><input type="checkbox" name="IDCheck" class="acb" /></td>
 								<td><s:property value="id"/></td>
@@ -85,7 +86,7 @@
 					</table>
 				</div>
 				<div class="ui_tb_h30">
-					<div class="ui_flt" style="height: 30px; line-height: 30px;">
+					<div class="ui_flt" style="height: 20px; line-height: 30px;">
 						共有
 						<span class="ui_txt_bold04"><s:property value="#pageResult.totalCount"/></span>
 						条记录，当前第
@@ -105,6 +106,6 @@
 				</div>
 			</div>
 		</div>
-	</form>
+	</s:form>
 </body>
 </html>

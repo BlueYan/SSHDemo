@@ -2,6 +2,8 @@ package com.mark.project.pss.service;
 
 import com.mark.project.pss.domain.Department;
 import com.mark.project.pss.domain.Employee;
+import com.mark.project.pss.page.PageResult;
+import com.mark.project.pss.query.EmployeeQueryObject;
 
 import java.util.List;
 
@@ -19,5 +21,9 @@ public interface IEmployeeService {
 	Employee get(Long id);
 
 	List<Employee> list();
+
+	List<Employee> query(EmployeeQueryObject qo);
+
+	PageResult<Employee> pageQuery(EmployeeQueryObject qo);
 
 }

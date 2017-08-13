@@ -7,16 +7,6 @@ import java.util.List;
 /**
  * Created by Mark_Yan on 2017/8/10.
  */
-public interface IDepartmentDAO {
-
-	void save(Department department);
-
-	void update(Department department);
-
-	void delete(Department department);
-
-	Department get(Long id);
-
-	List<Department> list();
+public interface IDepartmentDAO extends IBaseDAO<Department> {
 
 }

@@ -2,6 +2,8 @@ package com.mark.project.pss.service.impl;
 
 import com.mark.project.pss.dao.IEmployeeDAO;
 import com.mark.project.pss.domain.Employee;
+import com.mark.project.pss.page.PageResult;
+import com.mark.project.pss.query.EmployeeQueryObject;
 import com.mark.project.pss.service.IEmployeeService;
 import lombok.Setter;
 
@@ -33,5 +35,13 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	public List<Employee> list() {
 		return employeeDAO.list();
+	}
+
+	public List<Employee> query(EmployeeQueryObject qo) {
+		return employeeDAO.query(qo);
+	}
+
+	public PageResult<Employee> pageQuery(EmployeeQueryObject qo) {
+		return employeeDAO.pageQuery(qo);
 	}
 }

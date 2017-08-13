@@ -2,6 +2,8 @@ package com.mark.project.pss.web.action;
 
 import com.mark.project.pss.domain.Department;
 import com.mark.project.pss.domain.Employee;
+import com.mark.project.pss.page.PageResult;
+import com.mark.project.pss.query.EmployeeQueryObject;
 import com.mark.project.pss.service.IDepartmentService;
 import com.mark.project.pss.service.IEmployeeService;
 import com.opensymphony.xwork2.ActionContext;
@@ -35,9 +37,16 @@ public class EmployeeAction extends ActionSupport implements Preparable {
 	@Getter
 	private Employee employee = new Employee();
 
+	@Getter
+	private EmployeeQueryObject qo = new EmployeeQueryObject();
+
 	public String list() throws Exception {
-		List<Employee> employees = employeeService.list();
-		ActionContext.getContext().put("employees", employees); //将数据放到valueStack
+		//List<Employee> employees = employeeService.query(qo);
+		PageResult<Employee> pageResult = employeeService.pageQuery(qo);
+		List<Department> departments = departmentService.list();
+//		ActionContext.getContext().put("employees", employees); //将数据放到valueStack
+		ActionContext.getContext().put("pageResult", pageResult);
+		ActionContext.getContext().put("depts", departments);
 		return "list";
 	}
 
