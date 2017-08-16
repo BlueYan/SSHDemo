@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.mark.project.pss.domain">
+    
+    <class name="Role" table="t_role">
+        <id name="id" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="name" column="name"/>
+        <property name="sn" column="sn"/>
+        <!--
+            多对多的配置
+        -->
+        <bag name="permissions" table="t_role_permission">
+            <!--
+                key表示自己的外键名称
+            -->
+            <key column="role_id"/>
+            <!--
+                配置对方的外键名称
+            -->
+            <many-to-many class="Permission" column="permission_id"/>
+        </bag>
+    </class>
+    
+</hibernate-mapping>

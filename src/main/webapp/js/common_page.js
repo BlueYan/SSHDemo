@@ -9,6 +9,7 @@ $(document).ready(function() {
 	});
 	
 	$(".btn_input").click(function(){
+		console.info("input click");
 		window.location.href=$(this).attr("data-href");
 	});
 });

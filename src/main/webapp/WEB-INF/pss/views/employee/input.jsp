@@ -70,7 +70,7 @@
 						<s:checkbox name="employee.admin" cssClass="ui_checkbox01"/>
 					</td>
 				</tr>
-				<%-- <tr>
+				<tr>
 					<td class="ui_text_rt" width="140">角色</td>
 					<td class="ui_text_lt">
 						<table>
@@ -90,7 +90,7 @@
 							</tr>
 						</table>
 					</td>
-				</tr> --%>
+				</tr>
 				<tr>
 					<td>&nbsp;</td>
 					<td class="ui_text_lt">

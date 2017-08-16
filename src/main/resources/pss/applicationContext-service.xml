@@ -11,4 +11,12 @@
         <property name="employeeDAO" ref="employeeDAO"/>
     </bean>
 
+    <bean class="com.mark.project.pss.service.impl.PermissionServiceImpl" id="permissionService">
+        <property name="permissionDAO" ref="permissionDAO"/>
+    </bean>
+
+    <bean class="com.mark.project.pss.service.impl.RoleServiceImpl" id="roleService">
+        <property name="roleDAO" ref="roleDAO"/>
+    </bean>
+
 </beans>

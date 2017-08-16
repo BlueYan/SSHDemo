@@ -2,6 +2,8 @@ package com.mark.project.pss.service.impl;
 
 import com.mark.project.pss.dao.IDepartmentDAO;
 import com.mark.project.pss.domain.Department;
+import com.mark.project.pss.page.PageResult;
+import com.mark.project.pss.query.DepartmentQueryObject;
 import com.mark.project.pss.service.IDepartmentService;
 import lombok.Setter;
 
@@ -33,5 +35,9 @@ public class DepartmentServiceImpl implements IDepartmentService {
 
 	public List<Department> list() {
 		return departmentDAO.list();
+	}
+
+	public PageResult<Department> pageQuery(DepartmentQueryObject dqo) {
+		return departmentDAO.pageQuery(dqo);
 	}
 }

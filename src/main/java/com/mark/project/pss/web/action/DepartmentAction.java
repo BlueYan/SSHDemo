@@ -1,7 +1,10 @@
 package com.mark.project.pss.web.action;
 
 import com.mark.project.pss.domain.Department;
+import com.mark.project.pss.page.PageResult;
+import com.mark.project.pss.query.DepartmentQueryObject;
 import com.mark.project.pss.service.IDepartmentService;
+import com.mark.project.pss.util.RequiredPermission;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import lombok.Getter;
@@ -12,7 +15,7 @@ import java.util.List;
 /**
  * Created by Mark_Yan on 2017/8/10.
  */
-public class DepartmentAction extends ActionSupport {
+public class DepartmentAction extends BaseAction {
 
 	@Setter
 	private IDepartmentService departmentService;
@@ -26,9 +29,17 @@ public class DepartmentAction extends ActionSupport {
 	@Getter
 	private Department department = new Department();
 
+	@Getter
+	@Setter
+	private DepartmentQueryObject dqo = new DepartmentQueryObject();
+
+	@RequiredPermission("部门列表")
 	public String list() throws Exception {
-		List<Department> departments = departmentService.list();
-		ActionContext.getContext().put("dept", departments); //将数据放到valueStack
+		//List<Department> departments = departmentService.list();
+		PageResult<Department> pageResult = departmentService.pageQuery(dqo);
+		ActionContext.getContext().put("pageResult", pageResult);
+		//ActionContext.getContext().put("dept", departments); //将数据放到valueStack
+
 		return "list";
 	}
 
@@ -37,6 +48,7 @@ public class DepartmentAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
+	@RequiredPermission("部门编辑")
 	public String input() throws Exception {
 		//查询当前的department对象
 		if ( department.getId() != null ) {
@@ -52,6 +64,7 @@ public class DepartmentAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
+	@RequiredPermission("部门新增/更新")
 	public String saveOrUpdate() throws Exception {
 		System.out.println(department);
 		if ( department.getId() == null ) {
@@ -69,6 +82,7 @@ public class DepartmentAction extends ActionSupport {
 	 * @return
 	 * @throws Exception
 	 */
+	@RequiredPermission("部门删除")
 	public String delete()throws Exception {
 		departmentService.delete(department);
 		return SUCCESS;

@@ -3,14 +3,22 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- 记得一定添加作用域scope -->
-    <bean class="com.mark.project.pss.web.action.DepartmentAction" id="departmentAction" scope="prototype">
-        <property name="departmentService" ref="departmentService"/>
-    </bean>
-
-    <bean class="com.mark.project.pss.web.action.EmployeeAction" id="employeeAction" scope="prototype">
+    <bean class="com.mark.project.pss.web.action.BaseAction" id="baseAction" abstract="true">
+        <property name="permissionService" ref="permissionService"/>
         <property name="departmentService" ref="departmentService"/>
         <property name="employeeService" ref="employeeService"/>
+        <property name="roleService" ref="roleService"/>
     </bean>
+
+    <!-- 记得一定添加作用域scope -->
+    <bean class="com.mark.project.pss.web.action.DepartmentAction" id="departmentAction" scope="prototype" parent="baseAction"/>
+
+    <bean class="com.mark.project.pss.web.action.EmployeeAction" id="employeeAction" scope="prototype" parent="baseAction"/>
+    
+    <bean class="com.mark.project.pss.web.action.PermissionAction" id="permissionAction" scope="prototype" parent="baseAction"/>
+
+    <bean class="com.mark.project.pss.web.action.RoleAction" id="roleAction" scope="prototype" parent="baseAction"/>
+
+    <bean class="com.mark.project.pss.web.action.LoginAction" id="loginAction" scope="prototype" parent="baseAction"/>
 
 </beans>

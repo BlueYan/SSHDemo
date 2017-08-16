@@ -37,20 +37,25 @@ public class EmployeeDAOImpl extends BaseDAOImpl<Employee> implements IEmployeeD
 		Session session = sessionFactory.getCurrentSession();
 		String queryStr = qo.getQuery(); //解决重复调用
 		//先查询出中条数
-		String hql = "SELECT COUNT(obj) FROM Employee obj" + queryStr;
-		Long count = (Long) session.createQuery(hql).list().get(0);
+		Long count = (Long) session.createQuery("SELECT COUNT(obj) FROM Employee obj" + queryStr).list().get(0);
 		if (count == 0) {
 			return new PageResult<Employee>(new ArrayList<Employee>(), 0, 0, 0);
 		}
 		//查询出数据
-		hql = "SELECT obj FROM Employee obj" + queryStr;
-		Query query  = session.createQuery(hql);
+		Query query  = session.createQuery("SELECT obj FROM Employee obj" + queryStr);
 		for ( int i = 0; i < qo.getParams().size(); i++ ) {
 			query.setParameter(i, qo.getParams().get(i));
 		}
-		query.setFirstResult(qo.getCurrentPage() - 1).setMaxResults(qo.getPageSize());
+		query.setFirstResult((qo.getCurrentPage() - 1) * qo.getPageSize()).setMaxResults(qo.getPageSize());
 		List<Employee> data = query.list();
 		PageResult<Employee> employeePageResult = new PageResult<Employee>(data, count.intValue(), qo.getCurrentPage(), qo.getPageSize());
 		return employeePageResult;
+	}
+
+	public Employee queryForLogin(String username, String password) {
+		Session session = sessionFactory.getCurrentSession();
+		Employee user = (Employee) session.createQuery("SELECT obj FROM Employee obj WHERE obj.name = ? AND obj.password = ?")
+				.setParameter(0, username).setParameter(1, password).uniqueResult();
+		return user;
 	}
 }

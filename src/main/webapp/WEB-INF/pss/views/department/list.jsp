@@ -23,14 +23,23 @@ To change this template use File | Settings | File Templates.
     </style>
     <script type="text/javascript">
         $(function () {
-            $(".btn_input").click(function () {
-                window.location.href = $(this).data("url");
+            $(".btn_input").click(function(){
+                window.location.href=$(this).data("url");
+            });
+            //翻页
+            $(".btn_page").click(function(){
+                $(":input[name='dqo.currentPage']").val($(this).data("page") || $(":input[name='dqo.currentPage']").val());
+                $("#searchForm").submit();
+            });
+            //每页多少条数据
+            $(":input[name='dqo.pageSize']").change(function(){
+                $("#searchForm").submit();
             });
         });
     </script>
 </head>
 <body>
-<form id="searchForm" action="#" method="post">
+<s:form id="searchForm" namespace="/pss" action="department_list" method="post">
     <div id="container">
         <div class="ui_content">
             <div class="ui_text_indent">
@@ -57,7 +66,7 @@ To change this template use File | Settings | File Templates.
                     <!--
                         TODO: 如何显示vs.count的形式而不是显示id编号
                     -->
-                    <s:iterator value="#dept" var="vs">
+                    <s:iterator value="#pageResult.listData" var="vs">
                         <tr>
                             <td><input type="checkbox" name="IDCheck" class="acb"/></td>
                             <td><s:property value="#vs.id"/></td>
@@ -82,28 +91,24 @@ To change this template use File | Settings | File Templates.
             <div class="ui_tb_h30">
                 <div class="ui_flt" style="height: 30px; line-height: 30px;">
                     共有
-                    <span class="ui_txt_bold04">100</span>
+                    <span class="ui_txt_bold04"><s:property value="#pageResult.totalCount"/></span>
                     条记录，当前第
-                    <span class="ui_txt_bold04">1/10</span>
+                    <span class="ui_txt_bold04"><s:property value="#pageResult.currentPage"/>/<s:property value="#pageResult.totalPage"/></span>
                     页
                 </div>
                 <div class="ui_frt">
-                    <input type="button" value="首页" class="ui_input_btn01"/>
-                    <input type="button" value="上一页" class="ui_input_btn01"/>
-                    <input type="button" value="下一页" class="ui_input_btn01"/>
-                    <input type="button" value="尾页" class="ui_input_btn01"/>
+                    <input type="button" value="首页" class="ui_input_btn01 btn_page" data-page=""1/>
+                    <input type="button" value="上一页" class="ui_input_btn01 btn_page" data-page='<s:property value="#pageResult.prevPage"/>'/>
+                    <input type="button" value="下一页" class="ui_input_btn01 btn_page" data-page='<s:property value="#pageResult.nextPage"/>'/>
+                    <input type="button" value="尾页" class="ui_input_btn01 btn_page" data-page='<s:property value="#pageResult.totalPage"/>'/>
 
-                    <select list="{10,20,50}" name="" class="ui_select02">
-                        <option>10</option>
-                        <option>20</option>
-                        <option>50</option>
-                    </select>
-                    转到第<input type="text" name="" value="" class="ui_input_txt01"/>页
-                    <input type="button" class="ui_input_btn01" value="跳转"/>
+                    <s:select list="{5,10,20}" name="dqo.pageSize" cssClass="ui_select02"/>
+                    转到第<s:textfield name="dqo.currentPage" cssClass="ui_input_txt01"/>页
+                    <input type="button" class="ui_input_btn01 btn_page"  value="跳转"/>
                 </div>
             </div>
         </div>
     </div>
-</form>
+</s:form>
 </body>
 </html>

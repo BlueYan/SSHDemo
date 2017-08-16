@@ -16,4 +16,5 @@ public interface IEmployeeDAO extends IBaseDAO<Employee> {
 	//分页高级查询
 	PageResult<Employee> pageQuery(EmployeeQueryObject qo);
 
+	Employee queryForLogin(String username, String password);
 }

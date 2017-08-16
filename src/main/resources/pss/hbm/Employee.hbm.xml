@@ -15,6 +15,10 @@
         <property name="admin" column="admin" type="java.lang.Boolean"/>
         <property name="password" column="password"/>
         <many-to-one name="dept" column="dept_id"/>
+        <bag name="roles" table="t_emp_role" cascade="all-delete-orphan">
+            <key column="employee_id"/>
+            <many-to-many class="Role" column="role_id"/>
+        </bag>
     </class>
     
 </hibernate-mapping>

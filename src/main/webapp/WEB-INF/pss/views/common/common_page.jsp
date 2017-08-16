@@ -14,13 +14,13 @@
 	<div class="ui_frt">
 		<!--    如果是第一页，则只显示下一页、尾页 -->
 		<input type="button" value="首页" class="ui_input_btn01 page_btn" data-page="1"/>
-		<input type="button" value="上一页" class="ui_input_btn01 page_btn" data-page="${pageResult.prevPage}"/>
-		<input type="button" value="下一页" class="ui_input_btn01 page_btn" data-page="${pageResult.nextPage}"/>
-		<input type="button" value="尾页" class="ui_input_btn01 page_btn" data-page="${pageResult.totalPage}"/>
+		<input type="button" value="上一页" class="ui_input_btn01 page_btn" data-page="<s:property value="#pageResult.prevPage" />"/>
+		<input type="button" value="下一页" class="ui_input_btn01 page_btn" data-page="<s:property value="#pageResult.nextPage" />"/>
+		<input type="button" value="尾页" class="ui_input_btn01 page_btn" data-page="<s:property value="#pageResult.totalPage" />"/>
 		
 		<!--     如果是最后一页，则只显示首页、上一页 -->
-		<s:select list="{10,20,50}" value="#pageResult.pageSize" name="qo.pageSize" cssClass="ui_select02"></s:select>
-		转到第<input type="text" name="qo.currentPage" value="${qo.currentPage}" class="ui_input_txt01" />页
+		<s:select list="{5,10,20}" value="#pageResult.pageSize" name="qo.pageSize" cssClass="ui_select02"></s:select>
+		转到第<s:textfield name="qo.currentPage" cssClass="ui_input_txt01"/>页
 			 <input type="button" class="ui_input_btn01 page_btn" value="跳转"/>
 	</div>
 </div>

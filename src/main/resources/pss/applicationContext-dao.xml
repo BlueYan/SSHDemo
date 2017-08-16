@@ -14,4 +14,7 @@
 
     <bean class="com.mark.project.pss.dao.impl.EmployeeDAOImpl" id="employeeDAO" parent="baseDAO"/>
 
+    <bean class="com.mark.project.pss.dao.impl.PermissionDAOImpl" id="permissionDAO" parent="baseDAO"/>
+
+    <bean class="com.mark.project.pss.dao.impl.RoleDAOImpl" id="roleDAO" parent="baseDAO"/>
 </beans>

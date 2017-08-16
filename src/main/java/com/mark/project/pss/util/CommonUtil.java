@@ -1,5 +1,7 @@
 package com.mark.project.pss.util;
 
+import java.lang.reflect.Method;
+
 /**
  * Created by Administrator on 2017/6/16.
  */
@@ -42,6 +44,10 @@ public class CommonUtil {
 			return asciicode;
 		}
 		return nativeValue.toString();
+	}
+
+	public static String buildExpression(Method method) {
+		return method.getDeclaringClass().getName() + ":" + method.getName();
 	}
 
 }

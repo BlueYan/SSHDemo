@@ -1,6 +1,8 @@
 package com.mark.project.pss.service;
 
 import com.mark.project.pss.domain.Department;
+import com.mark.project.pss.page.PageResult;
+import com.mark.project.pss.query.DepartmentQueryObject;
 
 import java.util.List;
 
@@ -19,4 +21,5 @@ public interface IDepartmentService {
 
 	List<Department> list();
 
+	PageResult<Department> pageQuery(DepartmentQueryObject dqo);
 }
