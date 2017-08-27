@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--
+        1. 配置加载数据库配置文件
+    -->
+    <context:property-placeholder location="classpath:db/db.properties"/>
+
+    <!-- 2. 配置数据源 -->
+    <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--
+        3. 配置相关的SessionFactory
+           由于MyBatis的SqlSessionFactory是一个接口,不可以直接配置。我们要用SqlSessionFactoryBean来配置
+    -->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sessionFactory">
+        <!--
+            3.1 配置对应的数据源
+        -->
+        <property name="dataSource" ref="dataSource"/>
+
+        <!--
+            3.2 配置对应的myBatis总配置文件
+        -->
+        <property name="configLocation" value="classpath:mybatis/mybatis.cfg.xml"/>
+
+        <!--
+            3.3 配置所有的Mapper文件
+        -->
+        <property name="mapperLocations" value="classpath:mybatis/*Mapper.xml"/>
+
+    </bean>
+
+    <!--
+        4. 事务管理器
+           Hibernate的事务管理器是使用HibernateTransactionManager(属性是要添加sessionFactory)。
+           而对于其他的数据库是使用DataTransactionManager
+    -->
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 5. 配置aop模板 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="list*" read-only="true"/>
+            <tx:method name="select*" read-only="true"/>
+            <tx:method name="query*" read-only="true"/>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+
+
+    <!--
+        6. 配置aop
+    -->
+    <aop:config>
+        <!-- 6.1 在什么地方进行切入 -->
+        <aop:pointcut id="pointCut" expression="execution(* com.mark.project.mybatis_demo.service.*Service.*(..))"/>
+        <!-- 6.2 配置如何对切入点要做怎么样的操作 -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pointCut"/>
+    </aop:config>
+
+    <!--
+        7. 配置mapper实体类
+           spring加载bean对象有四种方法:
+           1. bean加载
+           2. 静态工厂
+           3. 实例工厂
+           4. 实现FactoryBean接口
+           而我们要配置的MyBatis就是使用实现了FactoryBean接口
+    -->
+    <!--<bean class="org.mybatis.spring.mapper.MapperFactoryBean" id="mapperBean">-->
+        <!--&lt;!&ndash; 7.1 配置对应的sessionFactory 不然会无法getSessionFactory &ndash;&gt;-->
+        <!--<property name="sqlSessionFactory" ref="sessionFactory"/>-->
+        <!--&lt;!&ndash; 7.2 配置我们要生成的mapper接口 &ndash;&gt;-->
+        <!--<property name="mapperInterface" value="com.mark.project.mybatis_demo.mapper.UserMapper"/>-->
+    <!--</bean>-->
+
+    <!--
+        8. 配置其他bean
+           例如: Service
+    -->
+    <!--<bean class="com.mark.project.mybatis_demo.service.impl.UserServiceImpl" id="userService">-->
+        <!--<property name="userDAO" ref="mapperBean"/>-->
+    <!--</bean>-->
+
+    <!-- 通过注解进行配置 -->
+    <!-- 9.1 开启包扫描 -->
+    <context:component-scan base-package="com.mark.project.mybatis_demo"/>
+    <!-- 9.2 开启扫描mapper接口 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.mark.project.mybatis_demo.mapper"/>
+    </bean>
+</beans>

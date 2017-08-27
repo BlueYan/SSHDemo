@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--
+        这里只要配置一些全局的配置就可以了
+        引入其他相关的mapper文件以及数据库相关的全部交给spring来处理
+    -->
+    <settings>
+        <!--
+            全局启用或禁用延迟加载。当禁用时, 所有关联对象都会即时加载。
+            设置成true，关联的one方对象就会延迟加载
+        -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--
+            当启用时, 有延迟加载属性的对象在被调用时将会完全加载任意属性。否则, 每种属性将会按需要加载。
+        -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!--
+            Object对象上面的哪些方法触发延迟加载。
+            默认：equals,clone,hashCode,toString
+        -->
+        <setting name="lazyLoadTriggerMethods" value="hashCode, equals, clone"/>
+
+        <setting name="useGeneratedKeys" value="true"/>
+
+    </settings>
+
+    <!-- Continue going here -->
+    <typeAliases>
+        <typeAlias type="com.mark.project.mybatis_demo.domain.User" alias="User"/>
+    </typeAliases>
+
+</configuration>
